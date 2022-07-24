@@ -20,27 +20,28 @@
   $item = sel_board($param);
   $next_board = sel_next_board($param);
   $prev_board = sel_prev_board($param);
- include_once "head.php"
+  $view_up = view_up($param);
+  include_once "head.php";
+ 
 ?>
 
 
 <body>
   <div class="container">
     <?php include_once "header.php"; ?>
-    <div class="mb-3" ><a style="color:#4b4b4b;" href="list.php?page=<?=$page?><?= $search_txt !== "" ? "&search_txt=" . $search_txt : "" ?>">뒤로가기</a></div>
-
     <h3 class="mb-4"><?=str_replace($search_txt, "<mark>{$search_txt}</mark>", $item["title"])?></h3>
     <div>
-        <?php
-        if(isset($_SESSION["login_User"])) {
-          $session_img = $_SESSION["login_user"]["profile_img"];
-        }
+      <?php
+          if(isset($_SESSION["login_User"])) {
+            $session_img = $_SESSION["login_user"]["profile_img"];
+          }
 
-        $i_profile_img = $item["profile_img"] == null ? "basic.jpg" : $item["i_user"] . "/" . $item["profile_img"];
-        ?>
+          $i_profile_img = $item["profile_img"] == null ? "basic.jpg" : $item["i_user"] . "/" . $item["profile_img"];
+      ?>
+
       <div class="d-flex .align-items-start">
         <div class="circular_img wh45 me-2">
-          <img src="/board_login/img/profile/<?=$i_profile_img?>">
+          <img src="img/profile/<?=$i_profile_img?>" onerror="this.onerror=null; this.src='img/profile/basic.jpg'" alt="프로필이미지">
         </div>
         <div class="d-inline-block" style="height:45px;">
           <div class="bold"><?=$item["nm"]?></div>
@@ -48,6 +49,8 @@
         </div>
       </div>
     </div>
+
+ 
 
     <div class="d-flex justify-content-between my-3">
       <!--isset(로그인한 유저가 맞다면) &&(and) 현재 로그인 중인 유저의 i_user === 글이 작성됐을 때 사용된 i_user-->
@@ -60,25 +63,33 @@
       </div>
       <div class="prev_next">
           <?php if($prev_board !== 0) { ?>
-          <a href="detail.php?i_board=<?=$prev_board?>"><button class="btn">이전글</button></a>
+          <a href="detail.php?i_board=<?=$prev_board?>&page=<?=$page?>"><button class="btn">이전글</button></a>
           <?php } ?>
           <?php if($next_board !== 0) { ?>
-          <a href="detail.php?i_board=<?=$next_board?>"><button class="btn">다음글</button></a>
+          <a href="detail.php?i_board=<?=$next_board?>&page=<?=$page?>"><button class="btn">최신글</button></a>
           <?php } ?>
       </div>
     </div>
 
-    <div class="main_ctnt p-5 h400"><?=$item["ctnt"]?></div>
+    <div class="main_ctnt p-5"><?=$item["ctnt"]?></div>
 
-    <script>//자바스크립
-      function isDel(){//함수정의
-        console.log('isDel 실행 됨!!')
+    <div class="mb-3 text-center">
+      <a style="color:#4b4b4b;" href="list.php?page=<?=$page?><?= $search_txt !== "" ? "&search_txt=" . $search_txt : "" ?>">뒤로가기</a>
+    </div>
+
+
+    <script>
+      
+      function isDel() {
+        console.log('isDel 실행');  
+
         const result = confirm('삭제하시겠습니까?');
         if(result) {
-          location.href = "del.php?i_board=<?=$item['i_board']?>";
-          // confirm에서 확인을 누르면 del.php로 이동하면서 위 변수값까지 함께 보냈다.
+          location.href="del.php?i_board=<?=$i_board?>";
+          // result = true 일때 del.php 로 i_board 값 보내주기
         }
       }
+        
     </script>
   </div>
   <?php include_once "footer.php" ?>
