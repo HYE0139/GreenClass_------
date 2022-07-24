@@ -6,10 +6,10 @@
     $login_user = &$_SESSION["login_user"];
     //& = 얕은 복사 : 주소값만 복사해옴
     //var_dump($_FILES); << 변수의 정보를 출력하는 함수 : 개발 당시에 확인용, 실제로 사용할 때에는 주석처리
-    if($_FILES["img"]["name"] === "") {
-        echo "이미지 없음";//img ~ 이미지 첨부하는 input에서 설정한 name과 동일하게 설정
-        exit;
-    }
+   if($_FILES["img"]["name"] === "") {
+        //echo "이미지 없음";//img ~ 이미지 첨부하는 input에서 설정한 name과 동일하게 설정
+       header("location:list.php");
+   }
 
     function gen_uuid_v4() { //UUID : 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
         return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x'
@@ -47,16 +47,16 @@
         //DB에 저장!
         $param = [
           "profile_img" => $target_filenm,
-          "i_user" => $login_user["i_user"]
+          "i_user" => $login_user["i_user"],
         ];
         $result = upd_profile_img($param);
         $login_user["profile_img"] = $target_filenm;
         $_SESSION["login_user"] = $login_user;
-        Header("Location: profile.php");
+        Header("Location: list.php");
 
        
 
-    } else { //업로드 실패!
+      }else {
         echo "업로드 실패";
-    }
+     }
     
