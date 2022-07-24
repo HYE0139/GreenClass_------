@@ -1,21 +1,67 @@
-<?= include_once "head.php"?>
 
-<body>
-  <h1>회원가입</h1>
-  <a href = "login.php">로그인</a>
-  <form action="join_proc.php" method="post">
-    <div><input type="text" name="uid" placeholder="아이디"></div>
-    <div><input type="password" name="upw" placeholder="비밀번호"></div>
-    <div><input type="password" name="confirm_upw" placeholder="비밀번호 확인"></div>
-    <div><input type="text" name="nm" palceholder="이름"></div>
-    <div>성별 : <label>여자<input type="radio" name="gender" value="0" checked></label>
-               <label>남자<input type="radio" name="gender" value="1" checked></label>
+<?php include_once "head.php"?>
+
+<body id="joinPage">
+  <div id="refreshing">
+  <div class="text-center mt-5 mb-3" >
+    <a href="list.php"><img style="width:300px;" src="./img/logo.png" alt="H.project.logo"></a>
   </div>
-  <!-- db_user > ins_user에 보낼 데이터 입력 파일-->
-  <div>
-    <input type="submit" value="회원가입">
-    <input type="submit" value="초기화">
+  <div id="joinForm">
+    <p>회원가입</p>
+    <form action="join_proc.php" method="post">
+
+      <div class="mb-4"><input class="form-control" type="text" name="nm" placeholder="이름"></div>
+
+      <div class="mb-4"><input class="form-control" type="text" name="uid" placeholder="아이디"></div>
+
+      <div class="mb-4 h100">
+        <input class="form-control mb-4" type="password" id="upw" name="upw" placeholder="비밀번호" onchange="check_pw();">
+        <input class="form-control" type="password" id="confirm_upw" name="confirm_upw" placeholder="비밀번호 확인" onchange="check_pw();">
+        <p id="check"></p>
+      </div>
+
+
+      <div id="genderCheck">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="inlineRadio1" name="gender" value="0">
+          <label class="form-check-label" for="inlineRadio1">여성</label>
+        </div>
+        <div class="form-check form-check-inline mb-4">
+          <input class="form-check-input" type="radio" id="inlineRadio2" name="gender" value="1">
+          <label class="form-check-label" for="inlineRadio2">남성</label>
+        </div>
+      </div>
+      <div class="btnStyle">
+        <input type="submit" class="btn mx-2" value="회원가입">
+        <input type="reset" class="btn mx-2" value="초기화">
+      </div>
+    </form>
   </div>
-  </form>
+
+  <?php include_once "footer.php"; ?>
+
+  <script>
+        function check_pw(){
+            const upw = document.getElementById('upw').value;
+            const confirm_upw = document.getElementById('confirm_upw').value;
+            const check = document.getElementById('check');
+ 
+            if(upw !=='' && confirm_upw !==''){
+                if(upw === confirm_upw){
+                  check.innerHTML='비밀번호가 일치합니다.'
+                  check.style.color='gray';
+                  check.style.fontSize='0.7rem';
+                }
+                else{
+                  check.innerHTML='비밀번호가 일치하지 않습니다.';
+                  check.style.color='red';
+                  check.style.fontSize='0.7rem';
+
+                }
+            }
+        }
+    </script>
+    </div>
 </body>
-</html>
+</html> 
+
