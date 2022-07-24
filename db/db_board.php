@@ -41,7 +41,8 @@ function sel_paging_count(&$param) {
 function sel_board_list(&$param){
   $start_idx = $param["start_idx"];
   $row_count = $param["row_count"];
-  $sql = "SELECT A.i_board, A.title, A.i_user, A.created_at, B.nm, B.profile_img 
+  $sql = "SELECT A.i_board, A.title, A.i_user, A.created_at, A.view_at
+                ,B.nm, B.profile_img 
           FROM t_board A
           INNER JOIN t_user B
           ON A.i_user = B.i_user
@@ -57,7 +58,7 @@ function sel_board_list(&$param){
 
 function sel_board(&$param) {
   $i_board = $param["i_board"];
-  $sql = "SELECT  A.title, A.ctnt, A.created_at
+  $sql = "SELECT  A.title, A.ctnt, A.created_at, A.view_at
                , B.i_user, B.nm, B.profile_img
             FROM t_board A
       INNER JOIN t_user B
@@ -67,6 +68,18 @@ function sel_board(&$param) {
   $result = mysqli_query($conn, $sql);
   mysqli_close($conn);        
   return mysqli_fetch_assoc($result);
+}
+//조회수
+function view_up(&$param){
+  $conn = get_conn();
+  $i_board = $param["i_board"];
+  $sql = "UPDATE t_board
+          SET view_at = view_at + 1
+          WHERE i_board = $i_board
+          ";
+  $result = mysqli_query($conn, $sql);
+  mysqli_close($conn);
+  return $result;
 }
 
 //최신글
