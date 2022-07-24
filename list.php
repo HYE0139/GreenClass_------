@@ -14,8 +14,19 @@
   }
  
   $search_txt = "";
-  if(isset($_GET["search_txt"])) {
+  $search_cate = "";
+  $headerTitle = "자유게시판";
+  if(isset($_GET["search_txt"]) && isset($_GET["category"])) {
       $search_txt = $_GET["search_txt"];
+      $search_cate = $_GET["category"];
+
+      if($search_cate === 'title'){
+        $keyword = '제목';
+      } else {
+        $keyword = '작성자';
+      }
+
+      $headerTitle = " $keyword ' ${search_txt} ' 의 검색결과 ";
   }
   
   $row_count = 15;//페이지당 보일 게시글(레코드) 수
@@ -29,14 +40,14 @@
   $list = sel_board_list($param); // db_board.php
  
   
-  include_once "head.php"
+  include_once "head.php";
 ?>
 
 <body>
   <div class="container">
-    <header> <!--삼항식 >  조건 ? 참 : 거짓 -->
+    <header class="mb-4 d-flex align-items-center flex-column"> <!--삼항식 >  조건 ? 참 : 거짓 -->
       <div class="text-center mt-3">
-        <img class="w300" src="./img/logo.png" alt="">
+        <a href="list.php"><img class="w400" src="./img/logo.png" alt=""></a>
       </div>
     <?php
         if(isset($_SESSION["login_user"])) {
@@ -45,37 +56,37 @@
         }
       ?>
       <div id ="link" class=" nav justify-content-center text-center">
-        <a href = "list.php" class=" nav-item pe-auto">리스트</a>
+        <a href = "list.php" class=" nav-item">게시판</a>
         <?php if(isset($_SESSION["login_user"])){//로그인이 된 상태일 때 ?>
           <a href="write.php" class="nav-item" >글쓰기</a>
-          <a href="profile.php" class="nav-item">프로필</a>
-          <a href="logout.php" class="nav-item " >로그아웃</a>
+          <button type="button" class="btn nav-item" data-bs-toggle="modal" data-bs-target="#profileBtnModal">프로필</button>
+          <a href="logout.php" class="nav-item" >로그아웃</a>
         <?php } else { // 로그인이 안된 상태일 때 ?>
-          <a href = "login.php" class="nav-item">로그인</a>
+          <button type="button" class="btn nav-item" data-bs-toggle="modal" data-bs-target="#loginBtnModal">로그인</button>
         <?php } ?>
       </div>
 
       <!--if(로그인) { 프로필 사진, 환영문구 }-->
       <?php if(isset($_SESSION["login_user"])) { ?>
-        <div class="my-3 d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center w300 justify-content-center shadow p-2 my-4 bg-body rounded" id="refreshing">
           <div class="circular_img wh45 me-3">
-            <img src="/board_login/img/profile/<?=$profile_img?>">
+            <img src="img/profile/<?=$profile_img?>" onerror="this.onerror=null; this.src='img/profile/basic.jpg'" alt="프로필이미지">
           </div>
-          <div class="fs-6"> <?=$nm?> 님 환영합니다.</div>
+          <div class="fs-6 "> <?=$nm?> 님 환영합니다.</div>
         </div>
       <?php } ?>
     </header>
 
     <main>
       <div class="header_title">
-        <h1>자유게시판</h1>
+        <h1><?=$headerTitle?></h1>
       </div>
       <div>
         <form action="list.php" method="get" class="d-flex justify-content-end">
           <div class="d-flex w400">
-            <select>
-              <option>제목</option>
-              <option>작성자</option>
+            <select name="category">
+              <option value="title">제목</option>
+              <option value="writer">작성자</option>
             </select>
             
             <input type="search" class="form-control mx-2" name="search_txt" value="<?=$search_txt?>">
@@ -90,6 +101,7 @@
             <th>작성자</th>
             <th>제목</th>
             <th>작성일시</th>
+            <th>조회수</th>
           </tr>
         </thead>
         <tbody>
@@ -106,6 +118,8 @@
                 <?=$item["nm"]?>
               </td>
               <td class="t-gray"><?=$item["created_at"]?></td>
+
+              <td class="t-gray"><?=$item["view_at"]?></td>
             </tr> 
     
           <?php } ?>
@@ -122,6 +136,11 @@
 
     
   </div>
-  <?php include_once "footer.php" ?>
+  <?php
+    include_once "footer.php";
+    include_once "loginModal.php";
+    include_once "profileModal.php";
+  ?>
+
 </body>
 </html>
