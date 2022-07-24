@@ -17,7 +17,5 @@
   $result = ins_user($param);
   //db_user 에서 insert문을 작성한 쿼리문이 포함된 함수에 키값을 설정한 #param 변수를 넣음
 
-
-
-    header("Location:login.php");
+    header("Location:list.php");
 ?>
