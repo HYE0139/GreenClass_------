@@ -31,7 +31,9 @@
     header("Location:list.php");
   }
   else{
-    header("Location:login.php");
+    echo "<script>alert('Invalid username or password')</script>";
+    echo "<script>location.replace('list.php');</script>";
+    exit;
   }
 
   //SESSION : 웹 서버에 정보를 저장하고 사용자 측에서도 접근할 수 있는 키 값을 저장한다.
