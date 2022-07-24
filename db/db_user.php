@@ -24,6 +24,7 @@
     mysqli_close($conn);
     return $result;
   }
+   
 
   // 입력된 고객의 정보를 불러오고 확인하기 위한 함수
   //login_proc.php 에서 사용
@@ -46,6 +47,7 @@
   function upd_profile_img(&$param) {
     $sql = "UPDATE t_user 
                SET profile_img = '{$param["profile_img"]}' 
+                  , nm = '{$param["nm"]}'
              WHERE i_user = {$param["i_user"]}";
     $conn = get_conn();
     $result = mysqli_query($conn, $sql);
