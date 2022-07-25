@@ -4,6 +4,7 @@
   session_start();
   $login_user = $_SESSION["login_user"];
 
+  $page = $_POST['page'];
   $i_board = $_POST["i_board"];
   $title = $_POST["title"];
   $ctnt= $_POST["ctnt"];
@@ -17,5 +18,5 @@
   ];
 
   $result = upd_board($param);
-  if($result){header("Location:detail.php?i_board=$i_board");}
+  if($result){header("Location:detail.php?i_board=$i_board&page=$page");}
 ?>
