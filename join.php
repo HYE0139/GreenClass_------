@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="btnStyle">
-        <input type="submit" class="btn mx-2" value="회원가입">
+        <input id="joinBtn" type="submit" class="btn mx-2" value="회원가입">
         <input type="reset" class="btn mx-2" value="초기화">
       </div>
     </form>
@@ -45,17 +45,20 @@
             const upw = document.getElementById('upw').value;
             const confirm_upw = document.getElementById('confirm_upw').value;
             const check = document.getElementById('check');
+            const joinBtn = document.getElementById('joinBtn');
  
             if(upw !=='' && confirm_upw !==''){
                 if(upw === confirm_upw){
                   check.innerHTML='비밀번호가 일치합니다.'
                   check.style.color='gray';
                   check.style.fontSize='0.7rem';
+                  joinBtn.disabled = false;
                 }
                 else{
                   check.innerHTML='비밀번호가 일치하지 않습니다.';
                   check.style.color='red';
                   check.style.fontSize='0.7rem';
+                  joinBtn.disabled = true;
 
                 }
             }
