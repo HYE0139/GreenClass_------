@@ -57,7 +57,7 @@
       <div>
           <?php if(isset($_SESSION["login_user"]) && $login_user["i_user"] === $item["i_user"]) { ?>
             <!--위 조건이 통과가 되면 아래 양식이 출력된다.-->
-              <a href="mod.php?i_board=<?=$i_board?>"><button class="btn">수정</button></a>
+              <a href="mod.php?i_board=<?=$i_board?>&page=<?=$page?>"><button class="btn">수정</button></a>
               <button class="btn" onclick="isDel();">삭제</button>
           <?php } ?>
       </div>
