@@ -14,19 +14,10 @@
   }
  
   $search_txt = "";
-  $search_cate = "";
   $headerTitle = "자유게시판";
-  if(isset($_GET["search_txt"]) && isset($_GET["category"])) {
+  if(isset($_GET["search_txt"])) {
       $search_txt = $_GET["search_txt"];
-      $search_cate = $_GET["category"];
-
-      if($search_cate === 'title'){
-        $keyword = '제목';
-      } else {
-        $keyword = '작성자';
-      }
-
-      $headerTitle = " $keyword ' ${search_txt} ' 의 검색결과 ";
+      $headerTitle = " ' ${search_txt} ' 의 검색결과 ";
   }
   
   $row_count = 15;//페이지당 보일 게시글(레코드) 수
@@ -84,10 +75,7 @@
       <div>
         <form action="list.php" method="get" class="d-flex justify-content-end">
           <div class="d-flex w400">
-            <select name="category">
-              <option value="title">제목</option>
-              <option value="writer">작성자</option>
-            </select>
+           
             
             <input type="search" class="form-control mx-2" name="search_txt" value="<?=$search_txt?>">
             <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>  
@@ -114,8 +102,7 @@
                 </a>
               </td> <!--str_replace : 문자열을 바꾸는 함수, str_replace("찾는 문자", "대체할 문자", "바꾸고자 하는 문자열")-->
               <td>
-               
-                <?=$item["nm"]?>
+                <?=str_replace($search_txt, "<mark>{$search_txt}</mark>", $item["nm"])?>
               </td>
               <td class="t-gray"><?=$item["created_at"]?></td>
 
