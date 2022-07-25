@@ -47,6 +47,7 @@ function sel_board_list(&$param){
           INNER JOIN t_user B
           ON A.i_user = B.i_user
           WHERE A.title LIKE '%{$param["search_txt"]}%'
+          OR B.nm LIKE '%{$param["search_txt"]}%'
           ORDER BY A.i_board DESC
           LIMIT {$param["start_idx"]}, {$param["row_count"]}";
 
@@ -132,7 +133,7 @@ function upd_board(&$param){
   "UPDATE t_board
       SET title = '$title'
         , ctnt ='$ctnt'
-        , update_at = now()/*업데이트를 날짜를 항상 지금으로 */
+        , updated_at = now()/*업데이트를 날짜를 항상 지금으로 */
     WHERE i_board = $i_board
       AND i_user = $i_user /* 로그인한 유저와 작성유저가 동일한지 확인 */
   ";
